@@ -4,7 +4,7 @@ import benzinGroupImage from '@/assets/benzin-group.jpg';
 
 const BenzinSpecialEnding = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [animationStage, setAnimationStage] = useState<'idle' | 'match' | 'fire' | 'reveal'>('idle');
+  const [animationStage, setAnimationStage] = useState<'idle' | 'match' | 'gasoline' | 'explosion' | 'reveal'>('idle');
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
   useEffect(() => {
@@ -40,15 +40,43 @@ const BenzinSpecialEnding = () => {
     }
   };
 
-  const playFireSound = () => {
+  const playGasolineSound = () => {
     if (audioContext) {
-      // Create fire crackle sound using noise
-      const bufferSize = audioContext.sampleRate * 2;
+      // Create gasoline pouring sound
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      const filter = audioContext.createBiquadFilter();
+      
+      oscillator.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.type = 'sawtooth';
+      oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+      oscillator.frequency.linearRampToValueAtTime(120, audioContext.currentTime + 1.5);
+      
+      filter.type = 'lowpass';
+      filter.frequency.value = 300;
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.2);
+      gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 1.3);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 1.5);
+    }
+  };
+
+  const playExplosionSound = () => {
+    if (audioContext) {
+      // Create explosion sound
+      const bufferSize = audioContext.sampleRate * 0.8;
       const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
       const data = buffer.getChannelData(0);
       
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * 0.1;
+        data[i] = (Math.random() * 2 - 1) * 0.4;
       }
       
       const source = audioContext.createBufferSource();
@@ -56,21 +84,18 @@ const BenzinSpecialEnding = () => {
       const gainNode = audioContext.createGain();
       
       source.buffer = buffer;
-      source.loop = true;
-      
       filter.type = 'lowpass';
-      filter.frequency.value = 800;
+      filter.frequency.value = 2000;
       
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.5);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 3);
+      gainNode.gain.linearRampToValueAtTime(0.6, audioContext.currentTime + 0.1);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
       
       source.connect(filter);
       filter.connect(gainNode);
       gainNode.connect(audioContext.destination);
       
       source.start();
-      setTimeout(() => source.stop(), 3000);
     }
   };
 
@@ -80,13 +105,19 @@ const BenzinSpecialEnding = () => {
     playMatchSound();
     
     setTimeout(() => {
-      // Stage 2: Fire animation
-      setAnimationStage('fire');
-      playFireSound();
+      // Stage 2: Gasoline pouring
+      setAnimationStage('gasoline');
+      playGasolineSound();
       
       setTimeout(() => {
-        // Stage 3: Benzin reveal
-        setAnimationStage('reveal');
+        // Stage 3: Explosion
+        setAnimationStage('explosion');
+        playExplosionSound();
+        
+        setTimeout(() => {
+          // Stage 4: Benzin reveal
+          setAnimationStage('reveal');
+        }, 1500);
       }, 1500);
     }, 1000);
   };
@@ -120,14 +151,35 @@ const BenzinSpecialEnding = () => {
           </div>
         )}
 
-        {animationStage === 'fire' && (
+        {animationStage === 'gasoline' && (
           <div className="flex justify-center items-center h-64">
             <div className="relative">
-              {/* Fire flames */}
-              <div className="fire-container">
-                <div className="flame flame-1"></div>
-                <div className="flame flame-2"></div>
-                <div className="flame flame-3"></div>
+              {/* Small flame with gasoline pouring effect */}
+              <div className="flame flame-small animate-flicker"></div>
+              {/* Gasoline stream */}
+              <div className="gasoline-stream animate-pour"></div>
+              <div className="text-sm text-muted-foreground mt-8 animate-fade-in">
+                *pouring gasoline*
+              </div>
+            </div>
+          </div>
+        )}
+
+        {animationStage === 'explosion' && (
+          <div className="flex justify-center items-center h-64">
+            <div className="relative">
+              {/* Large explosion effect */}
+              <div className="explosion-container">
+                <div className="explosion-ring explosion-ring-1"></div>
+                <div className="explosion-ring explosion-ring-2"></div>
+                <div className="explosion-ring explosion-ring-3"></div>
+                <div className="fire-container scale-150">
+                  <div className="flame flame-1"></div>
+                  <div className="flame flame-2"></div>
+                  <div className="flame flame-3"></div>
+                  <div className="flame flame-4"></div>
+                  <div className="flame flame-5"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -143,7 +195,7 @@ const BenzinSpecialEnding = () => {
               />
             </div>
             <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-celebration-orange via-red-500 to-celebration-purple bg-clip-text text-transparent mb-4 animate-slide-in-up">
-              From Benzin, with love 🔥❤️
+              From your Benzin family… with 🔥 love.
             </h2>
             <p className="text-xl text-muted-foreground animate-slide-in-up-delayed">
               The fire of friendship burns eternal! 🔥
