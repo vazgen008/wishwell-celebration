@@ -1,12 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import HeroSection from '@/components/HeroSection';
+import WishesSection from '@/components/WishesSection';
+import MusicPlayer from '@/components/MusicPlayer';
+import FloatingElements from '@/components/FloatingElements';
 
 const Index = () => {
+  // You can customize the birthday person's name here
+  const birthdayPersonName = "Beautiful Soul";
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen">
+      {/* Background music player */}
+      <MusicPlayer />
+      
+      {/* Floating decorative elements */}
+      <FloatingElements />
+      
+      {/* Main content */}
+      <HeroSection birthdayPersonName={birthdayPersonName} />
+      <WishesSection />
     </div>
   );
 };

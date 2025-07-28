@@ -2,41 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Birthday Wishes Design System - Soft pastels, warm gradients, celebration vibes
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Soft pastel background system */
+    --background: 330 25% 98%;
+    --foreground: 340 15% 25%;
 
+    /* Card system with gentle tones */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 340 15% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 340 15% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary: Warm birthday pink */
+    --primary: 340 75% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 340 85% 75%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary: Soft lavender */
+    --secondary: 270 30% 85%;
+    --secondary-foreground: 270 25% 35%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted: Light cream */
+    --muted: 45 25% 92%;
+    --muted-foreground: 340 15% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent: Celebration yellow */
+    --accent: 45 95% 80%;
+    --accent-foreground: 45 85% 35%;
+
+    /* Celebration colors */
+    --celebration-blue: 210 80% 75%;
+    --celebration-green: 150 60% 70%;
+    --celebration-orange: 25 85% 70%;
+    --celebration-purple: 280 60% 75%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 340 20% 88%;
+    --input: 340 20% 88%;
+    --ring: 340 75% 65%;
 
-    --radius: 0.5rem;
+    /* Beautiful gradients for birthday magic */
+    --gradient-hero: linear-gradient(135deg, hsl(340 75% 65%), hsl(270 60% 75%), hsl(210 80% 75%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(340 25% 98%));
+    --gradient-celebration: linear-gradient(90deg, hsl(340 75% 65%), hsl(45 95% 80%), hsl(210 80% 75%));
+    --gradient-subtle: linear-gradient(180deg, hsl(330 25% 98%), hsl(270 30% 96%));
+
+    /* Magical shadows with birthday colors */
+    --shadow-soft: 0 4px 20px hsl(340 75% 65% / 0.15);
+    --shadow-celebration: 0 8px 32px hsl(340 75% 65% / 0.25);
+    --shadow-glow: 0 0 40px hsl(340 85% 75% / 0.4);
+    --shadow-card: 0 4px 16px hsl(340 20% 80% / 0.2);
+
+    /* Smooth transitions for birthday magic */
+    --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
